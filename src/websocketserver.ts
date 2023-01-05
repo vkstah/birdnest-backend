@@ -1,8 +1,8 @@
-import { Server } from "ws";
+import { WebSocketServer } from "ws";
 import { Server as HttpServer } from "http";
 
 export const startWebSocketServer = (app: HttpServer) => {
-  const wss = new Server({ server: app });
+  const wss = new WebSocketServer({ server: app });
 
   console.log("WebSocketServer is running!");
 
