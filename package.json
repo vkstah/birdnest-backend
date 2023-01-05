@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node build/index.js",
     "dev": "tsc -w",
-    "build": "tsc"
+    "build": "npm install && tsc"
   },
   "dependencies": {
     "express": "^4.17.1",
