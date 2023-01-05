@@ -6,7 +6,13 @@ export const startWebSocketServer = (app: HttpServer) => {
 
   console.log("WebSocketServer is running!");
 
+  wss.on("connection", (ws) => {
+    console.log("New connection!");
+  });
+
   return () => {
-    wss.clients.forEach((client) => console.log("New broadcast!"));
+    wss.clients.forEach((client) => {
+      if (WebSocket.OPEN === client.readyState) client.send("New broadcast!");
+    });
   };
 };
