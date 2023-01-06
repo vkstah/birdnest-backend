@@ -11,7 +11,10 @@ export const startWebSocketServer = (app: HttpServer) => {
   console.log("WebSocketServer is running!");
 
   wss.on("connection", (ws: ExtWebSocket, req) => {
-    console.log(`New client (${req.socket.remoteAddress}) connected!`);
+    const remoteAddress =
+      req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+
+    console.log(`New client (${remoteAddress}) connected!`);
     ws.isAlive = true;
 
     ws.on("pong", () => {
@@ -19,7 +22,7 @@ export const startWebSocketServer = (app: HttpServer) => {
     });
 
     ws.on("close", () => {
-      console.log(`Client (${req.socket.remoteAddress}) has disconnected!`);
+      console.log(`Client (${remoteAddress}) has disconnected!`);
     });
   });
 
