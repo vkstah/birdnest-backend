@@ -1,3 +1,4 @@
 export const CONFIG = {
-  port: 9000,
+  PORT: 9000,
+  WEBSOCKETPORT: 8082,
 };

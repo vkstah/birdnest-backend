@@ -1,11 +1,24 @@
 import { startExpress } from "./express";
-import { fetchDrones } from "./fetchDrones";
+import { fetchDrones } from "./services";
+import { WebSocketBroadcast } from "./types/";
 import { startWebSocketServer } from "./websocketserver";
 
 const app = startExpress();
-const broadcast = startWebSocketServer(app);
+const { wss, broadcast } = startWebSocketServer(app);
 
-setInterval(() => {
-  // fetchDrones();
-  broadcast();
-}, 1000);
+const start = () => {
+  const task = async () => {
+    const droneData = await fetchDrones();
+
+    const data: WebSocketBroadcast = {
+      data: droneData,
+      error: "",
+    };
+
+    broadcast(JSON.stringify(data));
+  };
+
+  setInterval(task, 2000);
+};
+
+start();
