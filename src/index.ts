@@ -21,7 +21,6 @@ const start = () => {
       console.error(e);
     }
   };
-
   setInterval(task, 2000);
 };
 

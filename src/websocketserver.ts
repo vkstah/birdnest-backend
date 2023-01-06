@@ -1,6 +1,5 @@
 import WebSocket, { WebSocketServer } from "ws";
 import { Server as HttpServer } from "http";
-import { CONFIG } from "./config";
 
 interface ExtWebSocket extends WebSocket {
   isAlive: boolean;

@@ -12,7 +12,9 @@ export const fetchDrones = async (): Promise<DronesSnaphot> => {
   const xml = await dronesAPIResponse.text();
 
   if (!xml || dronesAPIResponse.status !== 200) {
-    throw new Error("Failed to fetch drone data.");
+    throw new Error(
+      `Failed to fetch drone data with status ${dronesAPIResponse.status}`
+    );
   }
 
   const parsedDroneData = parseXML({ xml });
