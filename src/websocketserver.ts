@@ -7,7 +7,7 @@ interface ExtWebSocket extends WebSocket {
 }
 
 export const startWebSocketServer = (app: HttpServer) => {
-  const wss = new WebSocketServer({ port: CONFIG.WEBSOCKETPORT });
+  const wss = new WebSocketServer({ server: app });
 
   console.log("WebSocketServer is running!");
 
@@ -36,6 +36,7 @@ export const startWebSocketServer = (app: HttpServer) => {
 
   wss.on("close", () => {
     clearInterval(interval);
+    console.log("WebSocketServer is closed!");
   });
 
   return {
