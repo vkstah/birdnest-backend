@@ -1,6 +1,6 @@
 import * as dotenv from "dotenv";
-import { deleteViolators, fetchViolators, insertViolators } from "./database";
 dotenv.config();
+import { deleteViolators, fetchViolators, insertViolators } from "./database";
 import { startExpress } from "./express";
 import { fetchDrones } from "./services";
 import { fetchPilot } from "./services";
@@ -23,6 +23,10 @@ const start = () => {
         data: databaseStoredViolators,
         error: databaseStoredViolatorsError,
       } = await fetchViolators();
+
+      if (databaseStoredViolatorsError) {
+        throw new Error(databaseStoredViolatorsError.message);
+      }
 
       /**
        * Filter new violator drones that don't exist in the database,
@@ -51,7 +55,8 @@ const start = () => {
           return violator;
         })
       );
-      if (newViolators) {
+      if (newViolators.length > 0) {
+        console.log(`Inserting ${newViolators.length} violators`);
         const {
           data: databaseInsertedViolators,
           error: databaseInsertedViolatorsError,
@@ -62,7 +67,8 @@ const start = () => {
        * Filter expired violators and remove them from the database.
        */
       const expiredViolators = filterExpiredViolators(databaseStoredViolators);
-      if (expiredViolators) {
+      if (expiredViolators.length > 0) {
+        console.log(`Deleting ${expiredViolators.length} violators`);
         const { error } = await deleteViolators(
           expiredViolators.map((violator) => violator.serialNumber)
         );
@@ -76,10 +82,10 @@ const start = () => {
 
       broadcast(JSON.stringify(data));
     } catch (e) {
-      console.error("There was an error", e);
+      console.error(e);
     }
   };
-  setInterval(task, 2000);
+  const interval = setInterval(task, 2000);
 };
 
 start();
