@@ -12,6 +12,7 @@
     "build": "npm install && tsc"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.2.3",
     "dotenv": "^16.0.3",
     "express": "^4.17.1",
     "fast-xml-parser": "^4.0.12",

@@ -11,22 +11,26 @@ export const fetchDrones = async (): Promise<DronesSnaphot> => {
   );
 
   let error = "";
+  let timestamp: string = "";
+  let drones: Drone[] = [];
   if (!dronesAPIResponse?.ok) {
     console.log(
       `Failed to fetch drone data with status code ${dronesAPIResponse.status}`
     );
     error = `Failed to fetch drone data with status code ${dronesAPIResponse.status}`;
+    return {
+      timestamp,
+      drones,
+      error,
+    };
   }
 
   const xml = await dronesAPIResponse.text();
   const parsedDroneData = parseXML({ xml });
-  const timestamp: string =
-    parsedDroneData.report.capture["@_snapshotTimestamp"];
-  const drones: Drone[] = parsedDroneData.report.capture.drone.map(
-    (drone: Drone) => {
-      return drone;
-    }
-  );
+  timestamp = parsedDroneData.report.capture["@_snapshotTimestamp"];
+  drones = parsedDroneData.report.capture.drone.map((drone: Drone) => {
+    return drone;
+  });
 
   return {
     timestamp,

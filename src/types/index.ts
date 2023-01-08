@@ -1,6 +1,7 @@
 export type WebSocketBroadcast = {
   data: {
     dronesSnapshot: DronesSnaphot;
+    violators?: Violator[];
   };
 };
 
@@ -35,4 +36,15 @@ export type Pilot = {
   phoneNumber: string;
   createdDt: string;
   email: string;
+};
+
+export type Violator = {
+  serialNumber: string;
+  positionX: number;
+  positionY: number;
+  timestamp: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
 };
