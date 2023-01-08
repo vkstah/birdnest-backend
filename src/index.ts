@@ -9,16 +9,17 @@ const { wss, broadcast } = startWebSocketServer(app);
 const start = () => {
   const task = async () => {
     try {
-      const droneData = await fetchDrones();
+      const dronesSnapshot = await fetchDrones();
 
       const data: WebSocketBroadcast = {
-        data: droneData,
-        error: "",
+        data: {
+          dronesSnapshot,
+        },
       };
 
       broadcast(JSON.stringify(data));
     } catch (e) {
-      console.error(e);
+      console.error("There was an error", e);
     }
   };
   setInterval(task, 2000);

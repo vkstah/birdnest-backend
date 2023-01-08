@@ -1,6 +1,7 @@
 export type WebSocketBroadcast = {
-  data: any;
-  error: string;
+  data: {
+    dronesSnapshot: DronesSnaphot;
+  };
 };
 
 export type Point = {
@@ -11,6 +12,7 @@ export type Point = {
 export type DronesSnaphot = {
   timestamp: string;
   drones: Drone[];
+  error: string;
 };
 
 export type Drone = {

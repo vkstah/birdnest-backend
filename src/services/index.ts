@@ -1,1 +1,1 @@
-export { fetchDrones } from "./fetchDrones";
+export { fetchDrones } from "./drones";

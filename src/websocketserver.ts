@@ -5,6 +5,13 @@ interface ExtWebSocket extends WebSocket {
   isAlive: boolean;
 }
 
+/**
+ * Instantiates the WebSocketServer.
+ *
+ * Returns the instance and a method for broadcasting to all connected clients.
+ *
+ * @param app The express server instance.
+ */
 export const startWebSocketServer = (app: HttpServer) => {
   const wss = new WebSocketServer({ server: app });
 
