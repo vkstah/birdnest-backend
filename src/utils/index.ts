@@ -65,7 +65,7 @@ export const filterViolatorDrones = (drones: Drone[]) => {
  */
 export const filterExpiredViolators = (violators: Violator[]) => {
   return violators.filter((violator) => {
-    const date = new Date(violator.timestamp + "Z");
+    const date = new Date(violator.timestamp);
     const dateNow = new Date(Date.now());
     if (dateNow.getTime() > date.getTime() + 600000) {
       return true;

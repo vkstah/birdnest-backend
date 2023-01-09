@@ -5,15 +5,15 @@ export type WebSocketBroadcast = {
   };
 };
 
-export type Point = {
-  x: number;
-  y: number;
-};
-
 export type DronesSnaphot = {
   timestamp: string;
   drones: Drone[];
   error: string;
+};
+
+export type Point = {
+  x: number;
+  y: number;
 };
 
 export type Drone = {
