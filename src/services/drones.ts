@@ -6,6 +6,7 @@ import { parseXML } from "../utils/";
  * @returns Object containing the drones, snapshot timestamp and a string representing an error (if any).
  */
 export const fetchDrones = async (): Promise<DronesSnaphot> => {
+  console.log("Fetching...");
   const dronesAPIResponse = await fetch(
     "https://assignments.reaktor.com/birdnest/drones"
   );
