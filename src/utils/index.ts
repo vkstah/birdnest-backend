@@ -1,5 +1,5 @@
 import { XMLParser } from "fast-xml-parser";
-import { Drone, Point, Violator } from "../types/index";
+import { Drone, Pilot, Point, Violator } from "../types/index";
 
 /**
  * Parse a string of XML into an object. Includes XML element attributes.
@@ -73,4 +73,29 @@ export const filterExpiredViolators = (violators: Violator[]) => {
       return false;
     }
   });
+};
+
+/**
+ * Gets a Violator from drone, pilot and timestamp.
+ *
+ * @param drone Drone object.
+ * @param pilot Pilot object.
+ * @param timestamp Timestamp representing the snapshot timestamp.
+ * @returns Violator object.
+ */
+export const getViolator = (
+  drone: Drone,
+  pilot: Pilot,
+  timestamp: string
+): Violator => {
+  return {
+    serialNumber: drone.serialNumber,
+    positionY: drone.positionY,
+    positionX: drone.positionX,
+    timestamp: timestamp,
+    firstName: pilot.firstName,
+    lastName: pilot.lastName,
+    phoneNumber: pilot.phoneNumber,
+    email: pilot.email,
+  };
 };

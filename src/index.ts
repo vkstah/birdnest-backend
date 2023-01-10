@@ -8,6 +8,7 @@ import {
   filterExpiredViolators,
   filterViolatorDrones,
   getDistanceSquared,
+  getViolator,
 } from "./utils";
 import { startWebSocketServer } from "./websocketserver";
 
@@ -15,13 +16,7 @@ const app = startExpress();
 const { wss, broadcast } = startWebSocketServer(app);
 let violatorsCache: Violator[] = [];
 
-/**
- * Main start function to start the interval.
- */
 const start = () => {
-  /**
-   * The task function that will be called every two seconds.
-   */
   const task = async () => {
     try {
       const dronesSnapshot = await fetchDrones();
@@ -102,16 +97,11 @@ const start = () => {
       const newViolators: Violator[] = await Promise.all(
         newViolatorDrones.map(async (violatorDrone) => {
           const pilot: Pilot = await fetchPilot(violatorDrone.serialNumber);
-          const violator: Violator = {
-            serialNumber: violatorDrone.serialNumber,
-            positionX: violatorDrone.positionX,
-            positionY: violatorDrone.positionY,
-            timestamp: dronesSnapshot.timestamp,
-            firstName: pilot.firstName,
-            lastName: pilot.lastName,
-            phoneNumber: pilot.phoneNumber,
-            email: pilot.email,
-          };
+          const violator: Violator = getViolator(
+            violatorDrone,
+            pilot,
+            dronesSnapshot.timestamp
+          );
           return violator;
         })
       );
