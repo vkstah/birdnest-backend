@@ -25,6 +25,7 @@ export const startWebSocketServer = (app: HttpServer) => {
     ws.isAlive = true;
 
     ws.on("pong", () => {
+      console.log("Received pong!");
       ws.isAlive = true;
     });
 
@@ -38,6 +39,7 @@ export const startWebSocketServer = (app: HttpServer) => {
     wss.clients.forEach((ws: ExtWebSocket) => {
       if (ws.isAlive === false) return ws.terminate();
 
+      console.log("Pinging...");
       ws.isAlive = false;
       ws.ping();
     });
