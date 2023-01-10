@@ -4,9 +4,9 @@ import { Drone, Pilot, Point, Violator } from "../types/index";
 /**
  * Parse a string of XML into an object. Includes XML element attributes.
  *
- * A JavaScript object equivalent of the XML.
- *
- * @param xml String of XML to be parsed.
+ * @see https://www.npmjs.com/package/fast-xml-parser
+ * @param xml XML to be parsed as a string.
+ * @returns JavaScript object equivalent of the XML.
  */
 export const parseXML = ({ xml }: { xml: string }) => {
   const parserOptions = {
@@ -21,10 +21,9 @@ export const parseXML = ({ xml }: { xml: string }) => {
 /**
  * Calculates the distance squared between two points in a two-dimensional space.
  *
- * Returns the distance squared as a number.
- *
  * @param pointOne Object represeting a point.
  * @param pointTwo Object represeting a point.
+ * @returns Distance squared as a number.
  */
 export const getDistanceSquared = (pointOne: Point, pointTwo: Point) => {
   return (
@@ -35,9 +34,8 @@ export const getDistanceSquared = (pointOne: Point, pointTwo: Point) => {
 /**
  * Filters an array of drones to determine which ones are inside the forbidden area i.e. which drones are violators.
  *
- * Returns an array of drones that are inside the forbidden area.
- *
  * @param drones Array of drones to be filtered.
+ * @returns Array of drones that are inside the forbidden area.
  */
 export const filterViolatorDrones = (drones: Drone[]) => {
   return drones.filter((drone) => {
@@ -59,9 +57,8 @@ export const filterViolatorDrones = (drones: Drone[]) => {
 /**
  * Filters an array of violators that are expired.
  *
- * Returns a filtered array of violators.
- *
  * @param violators An array of violators.
+ * @returns Filtered array of violators.
  */
 export const filterExpiredViolators = (violators: Violator[]) => {
   return violators.filter((violator) => {
@@ -98,4 +95,24 @@ export const getViolator = (
     phoneNumber: pilot.phoneNumber,
     email: pilot.email,
   };
+};
+
+/**
+ * Get current time timestamp in ISO format string.
+ *
+ * @returns ISO timestamp string.
+ */
+export const getNowTimestamp = () => {
+  return new Date(Date.now()).toISOString();
+};
+
+/**
+ * Get date in seconds. Uses getTime() from Date object.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getTime
+ * @param timestamp ISO timestamp string.
+ * @returns Number of seconds.
+ */
+export const getDateInSeconds = (timestamp: string) => {
+  return new Date(timestamp).getTime() / 1000;
 };

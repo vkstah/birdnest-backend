@@ -1,3 +1,6 @@
+const HOUR_IN_SECONDS = 3600;
+
 export const CONFIG = {
   PORT: 8082,
+  MAX_IDLE_SECONDS: HOUR_IN_SECONDS,
 };
