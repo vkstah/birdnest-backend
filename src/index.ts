@@ -15,7 +15,13 @@ const app = startExpress();
 const { wss, broadcast } = startWebSocketServer(app);
 let violatorsCache: Violator[] = [];
 
+/**
+ * Main start function to start the interval.
+ */
 const start = () => {
+  /**
+   * The task function that will be called every two seconds.
+   */
   const task = async () => {
     try {
       const dronesSnapshot = await fetchDrones();
@@ -111,14 +117,14 @@ const start = () => {
       );
       violatorsCache = [...violatorsCache, ...newViolators];
 
-      const data: WebSocketBroadcast = {
+      const broadcastData: WebSocketBroadcast = {
         data: {
           dronesSnapshot,
           violators: violatorsCache,
         },
       };
 
-      broadcast(JSON.stringify(data));
+      broadcast(JSON.stringify(broadcastData));
     } catch (e) {
       console.error(e);
     }

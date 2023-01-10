@@ -12,7 +12,5 @@ export const startExpress = () => {
     res.send("Everything appears to be in order! ✅")
   );
 
-  return app.listen(CONFIG.PORT, () =>
-    console.log(`App listening on port ${CONFIG.PORT}!`)
-  );
+  return app.listen(CONFIG.PORT, () => console.log(`App listening!`));
 };

@@ -8,9 +8,8 @@ interface ExtWebSocket extends WebSocket {
 /**
  * Instantiates the WebSocketServer.
  *
- * Returns the instance and a method for broadcasting to all connected clients.
- *
  * @param app The express server instance.
+ * @returns Object holding the instance and a method for broadcasting to all connected clients.
  */
 export const startWebSocketServer = (app: HttpServer) => {
   const wss = new WebSocketServer({ server: app });
