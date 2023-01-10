@@ -37,7 +37,10 @@ export const startWebSocketServer = (app: HttpServer) => {
   // Heartbeat interval to cleanup broken connections
   const interval = setInterval(() => {
     wss.clients.forEach((ws: ExtWebSocket) => {
-      if (ws.isAlive === false) return ws.terminate();
+      if (ws.isAlive === false) {
+        console.log("Terminating broken connection...");
+        return ws.terminate();
+      }
 
       console.log("Pinging...");
       ws.isAlive = false;
