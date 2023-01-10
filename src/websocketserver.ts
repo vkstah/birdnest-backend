@@ -1,5 +1,6 @@
 import WebSocket, { WebSocketServer } from "ws";
 import { Server as HttpServer } from "http";
+import { CONFIG } from "./config";
 
 interface ExtWebSocket extends WebSocket {
   isAlive: boolean;
@@ -14,7 +15,7 @@ interface ExtWebSocket extends WebSocket {
 export const startWebSocketServer = (app: HttpServer) => {
   const wss = new WebSocketServer({ server: app });
 
-  console.log("WebSocketServer is running!");
+  console.log(`WebSocketServer is running on port ${CONFIG.PORT}!`);
 
   wss.on("connection", (ws: ExtWebSocket, req) => {
     const remoteAddress =
