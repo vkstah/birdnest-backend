@@ -34,7 +34,6 @@ const maybeRunTask = () => {
     lastConnectionDateInSeconds + CONFIG.MAX_IDLE_SECONDS >
     nowDateInSeconds
   ) {
-    console.log("Running task...");
     task();
   }
 };
