@@ -29,7 +29,11 @@ export const fetchDrones = async (): Promise<DronesSnaphot> => {
   const parsedDroneData = parseXML({ xml });
   timestamp = parsedDroneData.report.capture["@_snapshotTimestamp"];
   drones = parsedDroneData.report.capture.drone.map((drone: Drone) => {
-    return drone;
+    return {
+      serialNumber: drone.serialNumber,
+      positionX: drone.positionX,
+      positionY: drone.positionY,
+    };
   });
 
   return {
