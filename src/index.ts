@@ -1,5 +1,3 @@
-import * as dotenv from "dotenv";
-dotenv.config();
 import { CONFIG } from "./config";
 import { startExpress } from "./express";
 import { fetchDrones, fetchPilot } from "./services";
