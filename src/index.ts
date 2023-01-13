@@ -27,9 +27,11 @@ const maybeUpdateLastConnectionTimestamp = () => {
 
 const maybeRunTask = () => {
   maybeUpdateLastConnectionTimestamp();
-  const nowTimestamp = getNowTimestamp();
-  const nowDateInSeconds = getDateInSeconds(nowTimestamp);
-  const lastConnectionDateInSeconds = getDateInSeconds(lastConnectionTimestamp);
+  const nowTimestamp: string = getNowTimestamp();
+  const nowDateInSeconds: number = getDateInSeconds(nowTimestamp);
+  const lastConnectionDateInSeconds: number = getDateInSeconds(
+    lastConnectionTimestamp
+  );
   if (
     lastConnectionDateInSeconds + CONFIG.MAX_IDLE_SECONDS >
     nowDateInSeconds
