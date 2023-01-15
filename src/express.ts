@@ -1,5 +1,6 @@
 import express from "express";
 import { CONFIG } from "./config";
+import { router } from "./routes/";
 
 export const startExpress = () => {
   const app = express();
@@ -11,6 +12,9 @@ export const startExpress = () => {
   app.get("/health", (req, res) =>
     res.send("Everything appears to be in order! ✅")
   );
+
+  // Routes defined in /routes
+  app.use("/", router);
 
   return app.listen(CONFIG.PORT, () => console.log(`App listening!`));
 };

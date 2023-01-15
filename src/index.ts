@@ -1,7 +1,14 @@
 import { CONFIG } from "./config";
 import { startExpress } from "./express";
 import { fetchDrones, fetchPilot } from "./services";
-import { Drone, Pilot, Violator, WebSocketBroadcast, Point } from "./types";
+import {
+  Drone,
+  Pilot,
+  Violator,
+  WebSocketBroadcast,
+  Point,
+  DronesSnaphot,
+} from "./types";
 import {
   filterExpiredViolators,
   filterViolatorDrones,
@@ -14,7 +21,9 @@ import { startWebSocketServer } from "./websocketserver";
 
 const app = startExpress();
 const { wss, broadcast } = startWebSocketServer(app);
-let violatorsCache: Violator[] = [];
+
+export let dronesSnapshotCache: DronesSnaphot;
+export let violatorsCache: Violator[] = [];
 let lastConnectionTimestamp: string = getNowTimestamp();
 
 const maybeUpdateLastConnectionTimestamp = () => {
@@ -40,8 +49,10 @@ const maybeRunTask = () => {
 
 const task = async () => {
   try {
-    const dronesSnapshot = await fetchDrones();
-    const snapshotViolatorDrones = filterViolatorDrones(dronesSnapshot.drones);
+    dronesSnapshotCache = await fetchDrones();
+    const snapshotViolatorDrones = filterViolatorDrones(
+      dronesSnapshotCache.drones
+    );
 
     /**
      * Array of violators that have expired (i.e. the timestamp is past 10 minutes).
@@ -80,7 +91,8 @@ const task = async () => {
         (cachedViolator) =>
           cachedViolator.serialNumber === alreadySeenViolator.serialNumber
       );
-      violatorsCache[violatorIndexInCache].timestamp = dronesSnapshot.timestamp;
+      violatorsCache[violatorIndexInCache].timestamp =
+        dronesSnapshotCache.timestamp;
 
       const center: Point = {
         x: 250000,
@@ -114,7 +126,7 @@ const task = async () => {
         const violator: Violator = getViolator(
           violatorDrone,
           pilot,
-          dronesSnapshot.timestamp
+          dronesSnapshotCache.timestamp
         );
         return violator;
       })
@@ -123,7 +135,7 @@ const task = async () => {
 
     const broadcastData: WebSocketBroadcast = {
       data: {
-        dronesSnapshot,
+        dronesSnapshot: dronesSnapshotCache,
         violators: violatorsCache,
       },
     };
