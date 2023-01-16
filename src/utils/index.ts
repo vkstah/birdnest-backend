@@ -55,7 +55,7 @@ export const filterViolatorDrones = (drones: Drone[]) => {
 };
 
 /**
- * Filters an array of violators that are expired.
+ * Filters an array of violators that are expired (i.e. the timestamp is past 10 minutes).
  *
  * @param violators An array of violators.
  * @returns Filtered array of violators.

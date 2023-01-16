@@ -32,7 +32,19 @@ const maybeUpdateLastConnectionTimestamp = () => {
   }
 };
 
+const clearExpiredViolators = () => {
+  const expiredViolators = filterExpiredViolators(violatorsCache);
+  violatorsCache = violatorsCache.filter(
+    (violator) =>
+      !expiredViolators.find(
+        (expiredViolator) =>
+          expiredViolator.serialNumber === violator.serialNumber
+      )
+  );
+};
+
 const maybeRunTask = () => {
+  clearExpiredViolators();
   maybeUpdateLastConnectionTimestamp();
   const nowTimestamp: string = getNowTimestamp();
   const nowDateInSeconds: number = getDateInSeconds(nowTimestamp);
@@ -52,18 +64,6 @@ const task = async () => {
     dronesSnapshotCache = await fetchDrones();
     const snapshotViolatorDrones = filterViolatorDrones(
       dronesSnapshotCache.drones
-    );
-
-    /**
-     * Array of violators that have expired (i.e. the timestamp is past 10 minutes).
-     */
-    const expiredViolators = filterExpiredViolators(violatorsCache);
-    violatorsCache = violatorsCache.filter(
-      (violator) =>
-        !expiredViolators.find(
-          (expiredViolator) =>
-            expiredViolator.serialNumber === violator.serialNumber
-        )
     );
 
     /**
